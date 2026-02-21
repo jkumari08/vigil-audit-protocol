@@ -1,4 +1,3 @@
-// components/Layout.tsx
 import { useState, useEffect } from "react";
 import Link from "next/link";
 import { useRouter } from "next/router";
@@ -25,11 +24,17 @@ export default function Layout({ children }: { children: React.ReactNode }) {
   });
 
   useEffect(() => {
+    // Initial address check
     getConnectedAddress().then(setAddress);
+
+    // Handle wallet account changes
+    const handleAccountsChanged = (args: unknown) => {
+      const accounts = args as string[];
+      setAddress(accounts[0] || null);
+    };
+
     if (typeof window !== "undefined" && window.ethereum) {
-      window.ethereum.on("accountsChanged", (accounts: string[]) => {
-        setAddress(accounts[0] || null);
-      });
+      window.ethereum.on("accountsChanged", handleAccountsChanged);
     }
 
     // Simulate live ticker updates
@@ -40,7 +45,14 @@ export default function Layout({ children }: { children: React.ReactNode }) {
         adi: parseFloat((prev.adi + (Math.random() - 0.5) * 0.002).toFixed(4)),
       }));
     }, 4000);
-    return () => clearInterval(interval);
+
+    // Cleanup listeners and intervals on unmount
+    return () => {
+      if (typeof window !== "undefined" && window.ethereum) {
+        window.ethereum.removeListener("accountsChanged", handleAccountsChanged);
+      }
+      clearInterval(interval);
+    };
   }, []);
 
   const handleConnect = async () => {
@@ -147,7 +159,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
         {/* Wallet connect */}
         {address ? (
           <div className="flex items-center gap-2 px-3 py-1.5 rounded-lg bg-green-400/5 border border-green-400/20 cursor-pointer hover:bg-green-400/10 transition-colors">
-            <span className="w-1.5 h-1.5 rounded-full bg-green-400 glow-green" />
+            <span className="w-1.5 h-1.5 rounded-full bg-green-400" />
             <span className="text-xs font-mono text-green-400">{shortenAddress(address)}</span>
             <ChevronDown className="w-3 h-3 text-green-400" />
           </div>
