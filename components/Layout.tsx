@@ -27,7 +27,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
     // Initial address check
     getConnectedAddress().then(setAddress);
 
-    // Handle wallet account changes
+    // Handle wallet account changes with type casting for Vercel
     const handleAccountsChanged = (args: unknown) => {
       const accounts = args as string[];
       setAddress(accounts[0] || null);
@@ -110,7 +110,6 @@ export default function Layout({ children }: { children: React.ReactNode }) {
 
       {/* Main navbar */}
       <nav className="bg-surface border-b border-border px-6 py-3.5 flex items-center gap-8">
-        {/* Logo */}
         <Link href="/" className="flex items-center gap-2.5 mr-4">
           <div className="w-8 h-8 rounded-lg bg-green-400/10 border border-green-400/30 flex items-center justify-center">
             <Shield className="w-4 h-4 text-green-400" />
@@ -121,7 +120,6 @@ export default function Layout({ children }: { children: React.ReactNode }) {
           </div>
         </Link>
 
-        {/* Nav links */}
         <div className="flex items-center gap-1">
           {navItems.map((item) => {
             const isActive = router.pathname === item.href || 
@@ -144,7 +142,6 @@ export default function Layout({ children }: { children: React.ReactNode }) {
 
         <div className="flex-1" />
 
-        {/* Network indicators */}
         <div className="flex items-center gap-2">
           <div className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-blue-400/5 border border-blue-400/20">
             <span className="w-1.5 h-1.5 rounded-full bg-blue-400" />
@@ -156,7 +153,6 @@ export default function Layout({ children }: { children: React.ReactNode }) {
           </div>
         </div>
 
-        {/* Wallet connect */}
         {address ? (
           <div className="flex items-center gap-2 px-3 py-1.5 rounded-lg bg-green-400/5 border border-green-400/20 cursor-pointer hover:bg-green-400/10 transition-colors">
             <span className="w-1.5 h-1.5 rounded-full bg-green-400" />
@@ -174,10 +170,8 @@ export default function Layout({ children }: { children: React.ReactNode }) {
         )}
       </nav>
 
-      {/* Page content */}
       <main className="flex-1">{children}</main>
 
-      {/* Footer */}
       <footer className="border-t border-border px-6 py-4 flex items-center justify-between text-xs text-dim">
         <div className="flex items-center gap-1.5">
           <Shield className="w-3.5 h-3.5 text-green-400" />
