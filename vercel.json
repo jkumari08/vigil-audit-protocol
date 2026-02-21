@@ -1,0 +1,19 @@
+{
+  "buildCommand": "npm run build",
+  "outputDirectory": ".next",
+  "framework": "nextjs",
+  "nodeVersion": "18.x",
+  "regions": ["iad1"],
+  "env": {
+    "NEXT_PUBLIC_AGENT_WALLET": "@next_public_agent_wallet",
+    "NEXT_PUBLIC_ADI_RPC": "@next_public_adi_rpc",
+    "NEXT_PUBLIC_ADI_CHAIN_ID": "@next_public_adi_chain_id",
+    "NEXT_PUBLIC_BASE_CHAIN_ID": "@next_public_base_chain_id",
+    "NEXT_PUBLIC_KITE_CHAIN_ID": "@next_public_kite_chain_id",
+    "AGENT_WALLET": "@agent_wallet",
+    "AGENT_PRIVATE_KEY": "@agent_private_key"
+  },
+  "git": {
+    "deploymentEnabled": true
+  }
+}
